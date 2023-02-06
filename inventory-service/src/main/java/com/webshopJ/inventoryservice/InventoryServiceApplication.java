@@ -5,9 +5,7 @@ import com.webshopJ.inventoryservice.repository.InventoryRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class InventoryServiceApplication {
@@ -19,10 +17,12 @@ public class InventoryServiceApplication {
 	@Bean
 	public CommandLineRunner loadData(InventoryRepository inventoryRepository){
 		return args -> {Inventory inventory1 = new Inventory();
+
+		//test data
+
 			inventory1.setSkuCode("test_skuCode");
 			inventory1.setQuantity(100);
 			inventory1.setId(1L);
-
 			Inventory inventory2 = new Inventory();
 			inventory2.setSkuCode("test_skuCode2");
 			inventory2.setQuantity(0);

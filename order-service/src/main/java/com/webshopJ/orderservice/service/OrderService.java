@@ -1,5 +1,6 @@
 package com.webshopJ.orderservice.service;
 
+import com.netflix.appinfo.InstanceInfo;
 import com.webshopJ.orderservice.dto.InventoryResponse;
 import com.webshopJ.orderservice.dto.OrderLineItemsDto;
 import com.webshopJ.orderservice.dto.OrderRequest;
@@ -7,6 +8,7 @@ import com.webshopJ.orderservice.model.Order;
 import com.webshopJ.orderservice.model.OrderLineItem;
 import com.webshopJ.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClients;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +28,8 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    private final WebClient webClient;
+    @Autowired
+    private final WebClient.Builder webClient;
 
     public void placeOrder(OrderRequest orderRequest){
         Order order = new Order();
@@ -43,7 +46,7 @@ public class OrderService {
                                      .map(OrderLineItem::getSkuCode)
                                      .toList();
 
-        InventoryResponse[] inventoryResponseArray = webClient.get()
+        InventoryResponse[] inventoryResponseArray = webClient.build().get()
                                   .uri("http://inventory-service/api/inventory",uriBuilder -> uriBuilder.queryParam("skuCode",skuCodes).build())
                                   .retrieve()
                                   .bodyToMono(InventoryResponse[].class)

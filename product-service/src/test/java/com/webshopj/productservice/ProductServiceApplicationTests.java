@@ -39,8 +39,8 @@ class ProductServiceApplicationTests {
     ProductRepository productRepository;
 
     @DynamicPropertySource
-    static void setProperties(DynamicPropertyRegistry dynamicPropertyRegistry){
-        dynamicPropertyRegistry.add("spring.data.mongodb.uri",mongoDBContainer::getReplicaSetUrl);
+    static void setProperties(DynamicPropertyRegistry dynamicPropertyRegistry) {
+        dynamicPropertyRegistry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
     }
 
     @Test
@@ -52,15 +52,15 @@ class ProductServiceApplicationTests {
                                               .content(s))
                .andExpect(status().isCreated());
         Assertions.assertEquals(1, productRepository.findAll()
-                                                 .size());
+                                                    .size());
     }
 
     private ProductRequest getProductRequest() {
         return ProductRequest.builder()
-                      .name("testProductName")
-                      .description("testProductDescription")
-                      .price(BigDecimal.valueOf(999))
-                      .build();
+                             .name("testProductName")
+                             .description("testProductDescription")
+                             .price(BigDecimal.valueOf(999))
+                             .build();
     }
 
 }
